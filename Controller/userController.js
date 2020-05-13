@@ -44,7 +44,9 @@ class UserController {
                     response.send(err)
                 })
         } catch (error) {
-
+            responseResult.error = error;
+            responseResult.status = false;
+            response.status(500).send(responseResult)
         }
     }
 }
