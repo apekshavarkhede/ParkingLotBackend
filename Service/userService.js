@@ -1,6 +1,8 @@
 const userModel = require('../Model/userModel')
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken')
+var sendMail = require('../MailSender/sendMail')
+
 
 class UserServices {
 
@@ -22,7 +24,17 @@ class UserServices {
                         callback(err)
                     }
                     if (result) {
-                        callback(null, { "sucess": true, "message": "User Register Sucessfully" })
+                        let tokenData = { "userEmail": data.userEmail }
+                        let token = jwt.sign(tokenData, process.env.SECRETKEY)
+                        let payload = { "userEmail": data.userEmail };
+                        sendMail.sendEmail(token, payload, (err, resultOfSendingMail) => {
+                            if (err) {
+                                callback(err)
+                            }
+                            else {
+                                callback(null, { "sucess": true, "message": "User Register Sucessfully....check ur mail" })
+                            }
+                        })
                     }
                 })
             }
