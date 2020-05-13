@@ -1,6 +1,12 @@
 const userModel = require('../Model/userModel')
+var bcrypt = require('bcrypt');
+
 
 class UserServices {
+
+    hashpassword(password) {
+        return bcrypt.hashSync(password, 10)
+    }
 
     async  registerUserService(data, callback) {
         try {
@@ -9,6 +15,7 @@ class UserServices {
                 callback("Email is Already Register")
             }
             if (checkUserIsRegister == null) {
+                data.password = this.hashpassword(data.password)
                 let userData = new userModel(data)
                 userData.save((err, result) => {
                     if (err) {
@@ -22,6 +29,10 @@ class UserServices {
         } catch (err) {
             callback(err)
         }
+    }
+
+    async loginServices(data) {
+
     }
 
 }
