@@ -2,14 +2,21 @@ const userModel = require('../Model/userModel')
 
 class UserServices {
 
-    registerUserService(data, callback) {
+    async registerUserService(data, callback) {
         try {
-            userModel.registerUser(data, (err, result) => {
-                if (err) {
-                    return callback(err)
-                }
-                return callback(null, result)
-            })
+            let dataToFind = { userEmail: data.userEmail }
+            let checkUserIsRegisterOrNot = await userModel.search(dataToFind)
+            if (checkUserIsRegisterOrNot != null) {
+                callback("Email already exists");
+            }
+            if (checkUserIsRegisterOrNot == null) {
+                userModel.registerUser(data, (err, result) => {
+                    if (err) {
+                        return callback(err)
+                    }
+                    return callback(null, result)
+                })
+            }
         } catch (err) {
             callback(err)
         }
