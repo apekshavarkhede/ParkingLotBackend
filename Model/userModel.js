@@ -1,5 +1,4 @@
 var mongoose = require('mongoose')
-var bcrypt = require('bcrypt');
 var sendMail = require('../MailSender/sendMail')
 var jwt = require('jsonwebtoken')
 

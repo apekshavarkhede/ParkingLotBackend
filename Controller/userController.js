@@ -29,6 +29,24 @@ class UserController {
             response.status(500).send(responseResult)
         }
     }
+
+    async loginController(request, response) {
+        let responseResult = {};
+        try {
+            let userData = {
+                "userEmail": request.body.userEmail,
+                "password": request.body.password
+            }
+            await userService.loginServices(userData)
+                .then((res) => {
+                    response.send(res)
+                }).catch((err) => {
+                    response.send(err)
+                })
+        } catch (error) {
+
+        }
+    }
 }
 
 module.exports = new UserController;

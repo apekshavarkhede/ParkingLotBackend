@@ -1,6 +1,6 @@
 const userModel = require('../Model/userModel')
 var bcrypt = require('bcrypt');
-
+var jwt = require('jsonwebtoken')
 
 class UserServices {
 
@@ -32,7 +32,18 @@ class UserServices {
     }
 
     async loginServices(data) {
+        let checkUserIsRegister = await userModel.find({ userEmail: data.userEmail })
+        if (checkUserIsRegister.length > 0) {
+            let checkIsPasswordCorrect = bcrypt.compareSync(data.password, checkUserIsRegister[0].password)
+            if (checkIsPasswordCorrect == true) {
+                return ({ success: true, message: "login sucess" })
+            }
+            if (checkIsPasswordCorrect == false) {
+                return ({ sucess: false, message: "wrong password" })
+            }
 
+        }
+        return ({ sucess: false, message: "Email is not present" })
     }
 
 }
