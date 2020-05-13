@@ -14,33 +14,5 @@ var userSchema = new mongoose.Schema({
     }
 )
 
-var user = mongoose.model('User', userSchema)
+module.exports = mongoose.model('User', userSchema)
 
-class UserModel {
-
-    hashpassword(password) {
-        return bcrypt.hashSync(password, 10)
-    }
-
-    async search(data) {
-        return await user.findOne(data);
-    }
-
-    async registerUser(data, callback) {
-        try {
-            data.password = this.hashpassword(data.password)
-            var userData = new user(data);
-            userData.save((err, result) => {
-                if (err) {
-                    callback(err)
-                }
-                if (result) {
-                    callback(null, { "sucess": true, "message": "User Register Sucessfully" })
-                }
-            })
-        } catch (error) {
-            callback(error)
-        }
-    }
-}
-module.exports = new UserModel
