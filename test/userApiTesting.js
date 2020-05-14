@@ -15,7 +15,7 @@ describe("Testing the user API", () => {
             })
     });
 
-    it('given proper data when register should register', (done) => {
+    it.only('given proper data when register should register', (done) => {
         chai.request(app).
             post("/register")
             .send({
@@ -43,5 +43,18 @@ describe("Testing the user API", () => {
                 expect(res).to.have.status(400);
             })
         done()
+    })
+
+    it('given proper data when user login should able to login', () => {
+        chai.request(app).
+            post("/login")
+            .send({
+                userEmail: "abc@gmail.com",
+                password: "Apeksha123"
+            })
+            .end((err, res) => {
+                expect(res).to.have.status(200);
+                expect(res.body.res.message).to.equals("login sucess")
+            })
     })
 });

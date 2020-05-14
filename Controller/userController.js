@@ -10,12 +10,11 @@ class UserController {
                 "userEmail": request.body.userEmail,
                 "password": request.body.password
             }
-
             userService.registerUserService(userData, (err, result) => {
                 if (err) {
                     responseResult.err = err;
                     responseResult.status = false;
-                    response.status(500).send(responseResult)
+                    response.status(400).send(responseResult)
                 }
                 else {
                     responseResult.data = result;
@@ -31,23 +30,24 @@ class UserController {
     }
 
     async loginController(request, response) {
-        let responseResult = {};
-        try {
-            let userData = {
-                "userEmail": request.body.userEmail,
-                "password": request.body.password
-            }
-            await userService.loginServices(userData)
-                .then((res) => {
-                    response.send(res)
-                }).catch((err) => {
-                    response.send(err)
-                })
-        } catch (error) {
-            responseResult.error = error;
-            responseResult.status = false;
-            response.status(500).send(responseResult)
+        let userData = {
+            "userEmail": request.body.userEmail,
+            "password": request.body.password
         }
+        await userService.loginServices(userData)
+            .then((res) => {
+                let check = (res.success === true)
+                if (check === true) {
+                    response.status(200).send({ res })
+                }
+                if (check === false) {
+                    response.status(400).send({ res })
+                }
+            }).catch((err) => {
+                response.status(500).send({
+                    message: "Server Error"
+                })
+            })
     }
 }
 
