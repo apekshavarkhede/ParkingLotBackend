@@ -7,11 +7,18 @@
  *  @since          : 12/5/2020
  ***************************************************************************************************/
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const app = express();
-const mongoose = require('mongoose');
-const dbConfig = require('./config/config');
+var express = require('express');
+var bodyParser = require('body-parser');
+var app = express();
+var mongoose = require('mongoose');
+var dbConfig = require('./config/config');
+var swaggerUi = require('swagger-ui-express')
+var router = require('./Routes/routes')
+var swaggerDocument = require('./Swagger/swagger.json')
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+require('dotenv').config()
+app.use('/', router);
 
 mongoose.connect(dbConfig.url, { useNewUrlParser: true })
     .then(() => {
@@ -22,12 +29,15 @@ mongoose.connect(dbConfig.url, { useNewUrlParser: true })
     })
 
 app.get('/', (req, res) => {
-    res.json({ "message": "Hello" });
+    res.json({ "message": "Welcome" });
 });
 
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.listen(3000, (err) => {
     if (err)
         throw err;
     console.log('server is listening on port 3000');
 });
+
+module.exports = app
 
