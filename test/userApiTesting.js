@@ -15,7 +15,7 @@ describe("Testing the user API", () => {
             })
     });
 
-    it.only('given proper data when register should register', (done) => {
+    it('given proper data when register should register', (done) => {
         chai.request(app).
             post("/register")
             .send({
@@ -31,7 +31,7 @@ describe("Testing the user API", () => {
         done()
     })
 
-    it('given imProper data when register should not register', (done) => {
+    it('given imProper data when register should not register', () => {
         chai.request(app).
             post("/register")
             .send({
@@ -42,7 +42,6 @@ describe("Testing the user API", () => {
             .end((err, res) => {
                 expect(res).to.have.status(400);
             })
-        done()
     })
 
     it('given proper data when user login should able to login', () => {
@@ -57,4 +56,19 @@ describe("Testing the user API", () => {
                 expect(res.body.res.message).to.equals("login sucess")
             })
     })
+
+    it('given improper data when user login should not able to login', () => {
+        chai.request(app).
+            post("/login")
+            .send({
+                userEmail: "abc@gmail.com",
+                password: "Apeksha1234"
+            })
+            .end((err, res) => {
+                expect(res).to.have.status(400);
+                expect(res.body.res.message).to.equals("wrong password")
+            })
+    })
+
+
 });
