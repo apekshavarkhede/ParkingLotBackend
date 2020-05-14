@@ -70,5 +70,19 @@ describe("Testing the user API", () => {
             })
     })
 
+    it.only('given improper emailId when user login should not able to login', () => {
+        chai.request(app).
+            post("/login")
+            .send({
+                userEmail: "aaa@gmail.com",
+                password: "Apeksha1234"
+            })
+            .end((err, res) => {
+                expect(res).to.have.status(400);
+                expect(res.body.res.message).to.equals("Email is not present")
+            })
+    })
+
+
 
 });
