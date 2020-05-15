@@ -8,7 +8,8 @@ class UserController {
                 "firstName": request.body.firstName,
                 "lastName": request.body.lastName,
                 "userEmail": request.body.userEmail,
-                "password": request.body.password
+                "password": request.body.password,
+                "role": request.body.role
             }
             userService.registerUserService(userData, (err, result) => {
                 if (err) {
