@@ -1,28 +1,35 @@
 var userService = require('../Service/userService')
+const { validationResult } = require('express-validator')
 
 class UserController {
     registerControl(request, response) {
         let responseResult = {};
         try {
-            let userData = {
-                "firstName": request.body.firstName,
-                "lastName": request.body.lastName,
-                "userEmail": request.body.userEmail,
-                "password": request.body.password,
-                "role": request.body.role
+            const error = validationResult(request);
+            if (!error.isEmpty()) {
+                response.status(422).send(error.array())
             }
-            userService.registerUserService(userData, (err, result) => {
-                if (err) {
-                    responseResult.err = err;
-                    responseResult.status = false;
-                    response.status(400).send(responseResult)
+            if (error.isEmpty()) {
+                let userData = {
+                    "firstName": request.body.firstName,
+                    "lastName": request.body.lastName,
+                    "userEmail": request.body.userEmail,
+                    "password": request.body.password,
+                    "role": request.body.role
                 }
-                else {
-                    responseResult.data = result;
-                    responseResult.status = true;
-                    response.status(200).send(responseResult)
-                }
-            })
+                userService.registerUserService(userData, (err, result) => {
+                    if (err) {
+                        responseResult.err = err;
+                        responseResult.status = false;
+                        response.status(400).send(responseResult)
+                    }
+                    else {
+                        responseResult.data = result;
+                        responseResult.status = true;
+                        response.status(200).send(responseResult)
+                    }
+                })
+            }
         } catch (error) {
             responseResult.error = error;
             responseResult.status = false;

@@ -1,8 +1,7 @@
-const userModel = require('../Model/userModel')
+const userModel = require('../app/Model/userModel')
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken')
 var sendMail = require('../MailSender/sendMail')
-
 
 class UserServices {
 
@@ -10,7 +9,7 @@ class UserServices {
         return bcrypt.hashSync(password, 10)
     }
 
-    async  registerUserService(data, callback) {
+    async registerUserService(data, callback) {
         try {
             let checkUserIsRegister = await userModel.findOne({ userEmail: data.userEmail })
             if (checkUserIsRegister != null) {
@@ -32,7 +31,7 @@ class UserServices {
                                 callback(err)
                             }
                             else {
-                                callback(null, { "sucess": true, "message": "User Register Sucessfully....check ur mail" })
+                                callback(null, { "status": true, "message": "User Register Sucessfully....check ur mail" })
                             }
                         })
                     }
@@ -53,7 +52,6 @@ class UserServices {
             if (checkIsPasswordCorrect == false) {
                 return ({ sucess: false, message: "wrong password" })
             }
-
         }
         return ({ sucess: false, message: "Email is not present" })
     }
