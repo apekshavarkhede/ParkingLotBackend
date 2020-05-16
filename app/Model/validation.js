@@ -1,4 +1,11 @@
-const { body } = require('express-validator/check')
+/****************************************************************************************************
+ *  @Purpose        : Add validation for the user input
+ *  @file           : validation.js
+ *  @overview       : validate the user input
+ *  @author         : APEKSHA VARKHEDE
+ *  @since          : 12/5/2020
+ ***************************************************************************************************/
+const { body } = require('express-validator')
 
 exports.validate = () => {
     return [

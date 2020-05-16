@@ -1,3 +1,11 @@
+/****************************************************************************************************
+ *  @Purpose        : it allows to get response from the services  
+ *  @file           : userController.js
+ *  @overview       : it accept request and pass it to services and send response received from services
+ *  @author         : APEKSHA VARKHEDE
+ *  @since          : 12/5/2020
+ ***************************************************************************************************/
+
 var userService = require('../Service/userService')
 const { validationResult } = require('express-validator')
 

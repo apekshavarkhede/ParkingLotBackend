@@ -20,7 +20,10 @@ app.use(bodyParser.json())
 require('dotenv').config()
 app.use('/', router);
 
-mongoose.connect(dbConfig.url, { useNewUrlParser: true })
+mongoose.connect(dbConfig.url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
     .then(() => {
         console.log("Sucessfully connected to the database");
     }).catch((err) => {

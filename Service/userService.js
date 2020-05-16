@@ -1,3 +1,11 @@
+/****************************************************************************************************
+ *  @Purpose        : Buisness logic is written in this file
+ *  @file           : userService.js
+ *  @overview       : access data from controller, process it and send result of processing to controller
+ *  @author         : APEKSHA VARKHEDE
+ *  @since          : 12/5/2020
+ ***************************************************************************************************/
+
 const userModel = require('../app/Model/userModel')
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken')

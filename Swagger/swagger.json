@@ -107,6 +107,9 @@
                 },
                 "password": {
                     "type": "string"
+                },
+                "people": {
+                    "type": "string"
                 }
             }
         }

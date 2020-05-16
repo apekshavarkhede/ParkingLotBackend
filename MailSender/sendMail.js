@@ -1,3 +1,10 @@
+/****************************************************************************************************
+ *  @Purpose        : Sending mail to user
+ *  @file           : sendMail.js
+ *  @overview       : send mail to the user
+ *  @author         : APEKSHA VARKHEDE
+ *  @since          : 12/5/2020
+ ***************************************************************************************************/
 var nodemailer = require('nodemailer');
 exports.sendEmail = (token, payload, callback) => {
     var transporter = nodemailer.createTransport({
@@ -7,9 +14,6 @@ exports.sendEmail = (token, payload, callback) => {
             pass: process.env.PASSWORD
         }
     });
-    console.log("process.env.EMAIL", process.env.EMAIL);
-    console.log("process.env.PASSWORD", process.env.PASSWORD);
-
 
     var mailOptions = {
         from: process.env.EMAIL,
@@ -18,9 +22,7 @@ exports.sendEmail = (token, payload, callback) => {
         text: `${token}`
     };
     transporter.sendMail(mailOptions, function (error, info) {
-        console.log("in mail sending", mailOptions)
         if (error) {
-            console.log("err in mail sending", error)
             callback(error)
         } else {
             console.log("mail sent")

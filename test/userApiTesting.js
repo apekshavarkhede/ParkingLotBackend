@@ -1,4 +1,12 @@
-var chai = require('chai')
+/****************************************************************************************************
+ *  @Purpose        : Test Register and Login API
+ *  @file           : userApiTesting.js
+ *  @overview       : Added testcase for API 
+ *  @author         : APEKSHA VARKHEDE
+ *  @since          : 14/5/2020
+ ***************************************************************************************************/
+
+ var chai = require('chai')
 var app = require('../server')
 var chaiHttp = require('chai-http')
 chai.use(chaiHttp)
