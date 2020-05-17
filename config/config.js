@@ -4,7 +4,18 @@
  *  @author         : APEKSHA VARKHEDE
  *  @since          : 12/5/2020
  ***************************************************************************************************/
+var mongoose = require('mongoose');
+require('dotenv').config()
 
-module.exports = {
-   "url": "mongodb://localhost:27017/Parking"
-}
+mongoose.connect(process.env.URL, {
+   useNewUrlParser: true,
+   useUnifiedTopology: true
+})
+   .then(() => {
+      console.log("Sucessfully connected to the database");
+   }).catch((err) => {
+      console.log("Error while connecting to database", err)
+      process.exit();
+   })
+
+module.exports = { mongoose }
