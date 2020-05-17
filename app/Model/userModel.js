@@ -37,11 +37,17 @@ class UserModel {
             if (err) {
                 callback(err)
             } if (res) {
-                callback(res)
+                callback(null, res)
             }
         })
     }
+
+    async find(dataToFind) {
+        let result = await user.find(dataToFind)
+        return result
+    }
 }
-let x = new UserModel
-module.exports = x
+
+
+module.exports = new UserModel
 
