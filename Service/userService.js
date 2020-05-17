@@ -17,34 +17,38 @@ class UserServices {
         return bcrypt.hashSync(password, 10)
     }
 
-    async registerUserService(data, callback) {
+    registerUserService(data, callback) {
         try {
-            let checkUserIsRegister = await userModel.findOne({ userEmail: data.userEmail })
-            if (checkUserIsRegister != null) {
-                callback("Email is Already Register")
-            }
-            if (checkUserIsRegister == null) {
-                data.password = this.hashpassword(data.password)
-                let userData = new userModel(data)
-                userData.save((err, result) => {
-                    if (err) {
-                        callback(err)
-                    }
-                    if (result) {
-                        let tokenData = { "userEmail": data.userEmail }
-                        let token = jwt.sign(tokenData, process.env.SECRETKEY)
-                        let payload = { "userEmail": data.userEmail };
-                        sendMail.sendEmail(token, payload, (err, resultOfSendingMail) => {
-                            if (err) {
-                                callback(err)
-                            }
-                            else {
-                                callback(null, { "status": true, "message": "User Register Sucessfully....check ur mail" })
-                            }
-                        })
-                    }
-                })
-            }
+            userModel.findOne({ userEmail: data.userEmail }, (result, error) => {
+                if (error) {
+                    callback(err)
+                }
+                if (result != null) {
+                    callback("Email is Already Register")
+                }
+                if (result === null) {
+                    data.password = this.hashpassword(data.password)
+                    userModel.createUser(data, (error, result) => {
+                        if (error) {
+                            callback(error)
+                        }
+                        if (result) {
+                            let tokenData = { "userEmail": data.userEmail }
+                            let token = jwt.sign(tokenData, process.env.SECRETKEY)
+                            let payload = { "userEmail": data.userEmail };
+                            sendMail.sendEmail(token, payload, (err, resultOfSendingMail) => {
+                                if (err) {
+                                    callback(err)
+                                }
+                                else {
+                                    callback(null, { "status": true, "message": "User Register Sucessfully....check ur mail" })
+                                }
+                            })
+                        }
+
+                    })
+                }
+            })
         } catch (err) {
             callback(err)
         }
