@@ -59,7 +59,9 @@ class UserServices {
         if (checkUserIsRegister.length > 0) {
             let checkIsPasswordCorrect = bcrypt.compareSync(data.password, checkUserIsRegister[0].password)
             if (checkIsPasswordCorrect == true) {
-                return ({ success: true, message: "login sucess" })
+                let tokenData = { "userEmail": data.userEmail }
+                let token = jwt.sign(tokenData, process.env.SECRETKEY)
+                return ({ success: true, message: "login sucess", data: token })
             }
             if (checkIsPasswordCorrect == false) {
                 return ({ sucess: false, message: "wrong password" })
