@@ -8,11 +8,15 @@
 var mongoose = require('mongoose')
 
 var userSchema = new mongoose.Schema({
-    firstName: { type: String },
-    lastName: { type: String },
-    userEmail: { type: String },
-    password: { type: String },
-    role: { type: String }
+    firstName: { type: String, required: [true, 'firstName required'], length: { min: 3, max: 10 } },
+    lastName: { type: String, required: [true, 'lastname required'], length: { min: 3, max: 8 } },
+    userEmail: { type: String, required: [true, 'userEmail required'] },
+    password: { type: String, required: [true, 'password required'], length: { min: 8 } },
+    role: {
+        type: String,
+        enum: ['Police', 'Driver', 'Owner', 'Security'],
+        required: true
+    }
 },
     {
         timestamps: true
