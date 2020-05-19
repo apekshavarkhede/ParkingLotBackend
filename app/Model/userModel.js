@@ -6,11 +6,13 @@
  *  @since          : 12/5/2020
  ***************************************************************************************************/
 var mongoose = require('mongoose')
+require('mongoose-type-email');
+
 
 var userSchema = new mongoose.Schema({
     firstName: { type: String, required: [true, 'firstName required'], length: { min: 3, max: 10 } },
     lastName: { type: String, required: [true, 'lastname required'], length: { min: 3, max: 8 } },
-    userEmail: { type: String, required: [true, 'userEmail required'] },
+    userEmail: { type: mongoose.SchemaTypes.Email, required: [true, 'invalid userEmail'] },
     password: { type: String, required: [true, 'password required'], length: { min: 8 } },
     role: {
         type: String,
